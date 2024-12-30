@@ -22,7 +22,7 @@ const somBeep = new Audio('./sons/beep.mp3');
 const volume = 0.05;
 musica.volume = volume; somPlay.volume = volume; somPause.volume = volume; somBeep.volume = volume;
 
-let tempoDecorridoEmSegundos = 5; // Default: 1500
+let tempoDecorridoEmSegundos = 1500; // Default: 1500
 let intervaloId = null;
 
 musicaFocoInput.addEventListener('change', () => musica.paused ? musica.play() : musica.pause());
