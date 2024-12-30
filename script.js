@@ -20,7 +20,7 @@ const somPause = new Audio('./sons/pause.mp3');
 const somBeep = new Audio('./sons/beep.mp3');
 
 const volume = 0.05;
-musica.volume = volume; somPlay.volume = volume; somPause.volume = volume; somBeep.volume = volume;
+musica.volume = 0.5; somPlay.volume = volume; somPause.volume = volume; somBeep.volume = volume;
 
 let tempoDecorridoEmSegundos = 1500; // Default: 1500
 let intervaloId = null;
