@@ -19,9 +19,10 @@ const somPlay = new Audio('./sons/play.wav');
 const somPause = new Audio('./sons/pause.mp3');
 const somBeep = new Audio('./sons/beep.mp3');
 
-musica.volume = 0.1; somPlay.volume = 0.1; somPause.volume = 0.1; somPause.volume = 0.1;
+const volume = 0.05;
+musica.volume = volume; somPlay.volume = volume; somPause.volume = volume; somBeep.volume = volume;
 
-let tempoDecorridoEmSegundos = 1500;
+let tempoDecorridoEmSegundos = 5; // Default: 1500
 let intervaloId = null;
 
 musicaFocoInput.addEventListener('change', () => musica.paused ? musica.play() : musica.pause());
@@ -44,14 +45,17 @@ longoBtn.addEventListener('click', () => {
     longoBtn.classList.add('active');
 });
 
-function alterarContexto(contexto) {
+function alterarContexto(contexto) { // Passa o valor string do atributo data-contexto do html
     mostrarTempo();
     botoes.forEach((contexto) => {
         contexto.classList.remove('active');
     });
     html.setAttribute('data-contexto', contexto);
     imagem.src = `./imagens/${contexto}.png`;
+
+    // Valida string
     switch (contexto) {
+        // Caso a string seja igual á
         case 'foco':
             frase.innerHTML = `
                 Otimize sua produtividade,<br>
@@ -76,6 +80,15 @@ const contagemRegressiva = () => {
     // Quando o tempo acabar
     if (tempoDecorridoEmSegundos < 1) {
         alert('Tempo finalizado!');
+
+        const focoAtivo = html.getAttribute('data-contexto') == 'foco';
+
+        // Só dispara o evento quando o tempo acabar e focoAtivo for true
+        if (focoAtivo) {
+            const evento = new CustomEvent('FocoFinalizado');
+            document.dispatchEvent(evento); // Broadcast
+        }
+        
         zerar();
         return somBeep.play();
     }
@@ -95,8 +108,8 @@ function iniciarOuPausar() {
     }
 
     //Ao dar Play
-    intervaloId = setInterval(contagemRegressiva, 1000);
     somPlay.play();
+    intervaloId = setInterval(contagemRegressiva, 1000);
     textoIniciarPausarBtn.textContent = 'Pausar';
     textoIniciarPausarBtn.previousElementSibling.src = './imagens/pause.png';
 }
